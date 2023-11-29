@@ -43,7 +43,7 @@ app.post("/recipes", (req, res) => {
     created,
   } = req.body;
 
-  Recipe.create(newRecipe) = {
+  const newRecipe = {
     title,
     instructions,
     level,
@@ -52,119 +52,162 @@ app.post("/recipes", (req, res) => {
     duration,
     isArchived,
     created,
-  }
-    .then((recipeFromDB) => {
-      res.status(201).json(recipeFromDB);
+  };
+
+  Recipe.create(newRecipe)
+    .then((createdRecipe) => {
+      res.status(201).json(createdRecipe);
     })
     .catch((error) => {
-      res.status(500).json("Error creating a recipe in the DB.");
+      console.error("Error creating a Recipe in the DB:", error);
+      res.status(500).json("Error creating a Recipe in the DB.");
     });
 });
 
-  
 //  Iteration 4 - Get All Recipes
 //  GET  /recipes route
 app.get("/recipes", (req, res) => {
-    Recipe.find()
-      .then((recipesArr) => {
-        res.status(200).json(recipesArr);
-      })
-      .catch((error) => {
-        res.status(500).json("Error getting recipes.")
-      });
-  });
+  Recipe.find()
+    .then((recipesArr) => {
+      res.status(200).json(recipesArr);
+    })
+    .catch((error) => {
+      res.status(500).json("Error getting recipes.");
+    });
+});
 
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
-app.get("/recipes/:recipeId", (req, res, next) => {
-    const { recipeId } = req.params;
-  
-    Recipe.findById(recipeId)
-      .then((recipeFromDB) => {
-        res.status(200).json(recipeFromDB)
-      })
-      .catch((error) => {
-        res.status(500).json("Error getting recipe.")
-      });
-  });
+app.get("/recipes/:recipeId", (req, res) => {
+  const { recipeId } = req.params;
+
+  Recipe.findById(recipeId)
+    .then((recipeFromDB) => {
+      res.status(200).json(recipeFromDB);
+    })
+    .catch((error) => {
+      res.status(500).json("Error getting recipe.");
+    });
+});
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
-app.get("/recipes/:recipeId", (req, res) => {
-  
-    Recipe.findByIdAndUpdate(req.params.id, req.body, { new: true})
-      .then((updatedRecipe) => {
-        res.status(200).json(updatedRecipe);
-      })
-      .catch((error) => {
-        res.status(500).json("Error updating recipe.")
-      });
-  });
+app.put("/recipes/:recipeId", (req, res) => {
+  const recipeId = req.params.recipeId;
+
+  const {
+    title,
+    instructions,
+    level,
+    ingredients,
+    image,
+    duration,
+    isArchived,
+    created,
+  } = req.body;
+
+  const updatedRecipe = {
+    title,
+    instructions,
+    level,
+    ingredients,
+    image,
+    duration,
+    isArchived,
+    created,
+  };
+
+  Recipe.findByIdAndUpdate(recipeId, updatedRecipe, { new: true })
+    .then((updatedRecipe) => {
+      res.status(200).json(updatedRecipe);
+    })
+    .catch((error) => {
+      res.status(500).json("Error updating recipe.");
+    });
+});
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
-app.delete("/recipes/:recipeId", (req, res, next) => {
-    const { recipeId } = req.params;
-  
-    Recipe.findByIdAndDelete(recipeId)
-      .then(() => {
-        res.status(200).send();
-      })
-      .catch((error) => {
-        res.status(500).json("Error deleting recipe.")
-      });
-  });
+app.delete("/recipes/:recipeId", (req, res) => {
+  const { recipeId } = req.params;
+
+  Recipe.findByIdAndDelete(recipeId)
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch((error) => {
+      res.status(500).json("Error deleting recipe.");
+    });
+});
 
 // BONUS
 //  Bonus: Iteration 9 - Create a Single User
+
+// ** NOT IN BONUS, BUT WE'VE ADDED A ROUTE FOR ALL USERS, SO THAT WE COULD SEE THEIR ID:
+app.get("/users", (req, res) => {
+  User.find()
+    .then((usersArr) => {
+      res.status(200).json(usersArr);
+    })
+    .catch((error) => {
+      res.status(500).json("Error getting users.");
+    });
+});
+
 //  POST  /users route
 app.post("/users", (req, res) => {
+  const { name, lastName, age } = req.body;
 
-    const {
-      name,
-      lastName,
-      age,
-    } = req.body;
-  
-    User.create(newUser) = {
-        name,
-        lastName,
-        age,
-    }
-      .then((userFromDB) => {
-        res.status(201).json(userFromDB);
-      })
-      .catch((error) => {
-        res.status(500).json("Error creating a new user in the DB.");
-      });
-  });
+  const newUser = {
+    name,
+    lastName,
+    age,
+  };
+
+  User.create(newUser)
+    .then((userFromDB) => {
+      res.status(201).json(userFromDB);
+    })
+    .catch((error) => {
+      res.status(500).json("Error creating a new user in the DB.");
+    });
+});
 
 //  Bonus: Iteration 10 | Get a Single User
 //  GET /users/:id route
 app.get("/users/:userId", (req, res) => {
-    const { userId } = req.params;
-  
-    User.findById(userId)
-      .then((userFromDB) => {
-        res.status(200).json(userFromDB)
-      })
-      .catch((error) => {
-        res.status(500).json("Error getting user.")
-      });
-  });
+  const { userId } = req.params;
+
+  User.findById(userId)
+    .then((userFromDB) => {
+      res.status(200).json(userFromDB);
+    })
+    .catch((error) => {
+      res.status(500).json("Error getting user.");
+    });
+});
 
 //  Bonus: Iteration 11 | Update a Single User
-//  GET /users/:id route
-app.get("/users/:userId", (req, res) => {
-  
-    User.findByIdAndUpdate(req.params.id, req.body, { new: true})
-      .then((updatedUser) => {
-        res.status(200).json(updatedUser);
-      })
-      .catch((error) => {
-        res.status(500).json("Error updating recipe.")
-      });
-  });
+//  *PUT /users/:id route
+app.put("/users/:userId", (req, res) => {
+  const userId = req.params.userId;
+
+  const { name, lastName, age } = req.body;
+
+  const updatedUser = {
+    name,
+    lastName,
+    age,
+  };
+
+  User.findByIdAndUpdate(userId, updatedUser, { new: true })
+    .then((updatedUser) => {
+      res.status(200).json(updatedUser);
+    })
+    .catch((error) => {
+      res.status(500).json("Error updating user.");
+    });
+});
 
 // Start the server
 app.listen(3000, () => console.log("My first app listening on port 3000!"));
