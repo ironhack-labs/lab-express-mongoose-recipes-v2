@@ -1,7 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const 
+const Recipe = require("./models/Recipe.model");
 
 const app = express();
 
@@ -29,6 +29,12 @@ app.get("/", (req, res) => {
 
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
+
+app.post("/recipe", (req, res, next) => {
+  Recipe.create(req.body)
+    .then((createdRecipe) => res.status(201).json(createdRecipe))
+    .catch((error) => console.log("Error creating a recipe"));
+});
 
 //  Iteration 4 - Get All Recipes
 //  GET  /recipes route
