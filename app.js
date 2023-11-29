@@ -55,10 +55,24 @@ app.get("/recipes/:id", (req, res, next) => {
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
+app.put("/recipes/:id", (req, res, next) => {
+  const { id } = req.params;
+  Recipe.findByIdAndUpdate(id, req.body),
+    { new: true }
+      .then((recipe) => res.status(200).json(recipe))
+      .catch((error) => console.log("Error updating your recipe"));
+});
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
 
+app.delete("//recipes/:id", (req, res, next) => {
+  const { id } = req.params;
+  Recipe.findByIdAndDelete(id),
+    { new: true }
+      .then(() => res.status(204).json())
+      .catch((error) => console.log("Error deleting your recipe"));
+});
 // BONUS
 //  Bonus: Iteration 9 - Create a Single User
 //  POST  /users route
