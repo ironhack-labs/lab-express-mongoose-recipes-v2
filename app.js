@@ -61,7 +61,7 @@ app.get('/recipes/:id', (req, res) => {
 	const recipeId = req.params.id;
 
 	Recipe.findById(recipeId)
-		.populate('author') // Replaces the author ObjectId with the full author document
+		.populate('recipe') // Replaces the author ObjectId with the full author document
 		.then((recipe) => {
 			res.status(200).json(recipe);
 		})
