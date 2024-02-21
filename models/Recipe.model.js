@@ -6,8 +6,8 @@ const Schema = mongoose.Schema;
 // CREATE SCHEMA
 // Schema - describes and enforces the structure of the documents
 const recipeSchema = new Schema({
-	title: { type: String, require: true, unique: true },
-	instructions: { type: String, require: true },
+	title: { type: String, required: true, unique: true },
+	instructions: { type: String, required: true },
 	level: {
 		type: String,
 		enum: ['Easy Peasy', 'Amateur Chef', 'UltraPro Chef'],
