@@ -12,6 +12,10 @@ const recipeSchema = new Schema({
 		type: String,
 		enum: ['Easy Peasy', 'Amateur Chef', 'UltraPro Chef'],
 	},
+	image: {
+		type: String,
+		default: 'https://images.media-allrecipes.com/images/75131.jpg',
+	},
 	ingredients: { type: [String] },
 	duration: { type: Number, min: 0 },
 	isArchived: { type: Boolean, default: false },

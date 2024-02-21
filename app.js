@@ -61,7 +61,6 @@ app.get('/recipes/:id', (req, res) => {
 	const recipeId = req.params.id;
 
 	Recipe.findById(recipeId)
-		.populate('recipe') // Replaces the author ObjectId with the full author document
 		.then((recipe) => {
 			res.status(200).json(recipe);
 		})
@@ -72,7 +71,7 @@ app.get('/recipes/:id', (req, res) => {
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
-app.put('/recipes/:id ', (req, res) => {
+app.put('/recipes/:id', (req, res) => {
 	const recipeId = req.params.id;
 	Recipe.findByIdAndUpdate(recipeId, req.body, { new: true })
 		.then((updateRecipe) => {
