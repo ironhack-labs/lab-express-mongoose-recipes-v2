@@ -12,12 +12,12 @@ app.use(express.json());
 
 
 // Iteration 1 - Connect to MongoDB
+const MONGODB_URI = "mongodb://127.0.0.1:27017/express-mongoose-recipes-dev";
+
 mongoose
-    .connect("mongodb://127.0.0.1:27017/iron-restaurant")
-    .then((response) => {
-        console.log(`Connected! Database Name: "${response.connections[0].name}"`);
-    })
-    .catch((err) => console.error("Error connecting to Mongo", err));
+  .connect(MONGODB_URI)
+  .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
+  .catch((err) => console.error("Error connecting to mongo", err));
 
 
 
@@ -54,7 +54,7 @@ app.get( "/recipes",  ( req, res ) => {
 
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
-app.get('recipes/:id', (req, res, next) => {
+app.get('/recipes/:id', (req, res, next) => {
     Recipe.findById(req.params.id)
     .then((oneRecipe) => {
         res.status(200).json(oneRecipe);
