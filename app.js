@@ -93,7 +93,7 @@ app.delete('/recipe/:id', (req, res) => {
 
     const { id: recipeId } = req.params
 
-    Book
+    Recipe
         .findByIdAndDelete(recipeId)
         .then(() => res.sendStatus(202))
         .catch(err => res.status(500).json(err))
