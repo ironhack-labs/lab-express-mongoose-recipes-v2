@@ -85,7 +85,14 @@ app.put('/api/recipes/:id', (req, res) => {
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
 
+app.delete('/api/recipes/:recipeId', (req, res) => {
+    const { recipeId } = req.params
 
+    Recipe
+        .findByIdAndDelete(recipeId)
+        .then(() => res.sendStatus(202))
+        .catch(err => res.status(500).json(err))
+})
 
 // Start the server
 app.listen(5005, () => console.log('My first app listening on port 5005!'));
