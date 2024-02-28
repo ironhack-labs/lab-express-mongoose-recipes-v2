@@ -14,10 +14,8 @@ app.use(express.json());
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
 
-// const MONGODB_URI_BASE = "mongodb://127.0.0.1:27017/"
-// const MONGODB_URI = `${MONGODB_URI_BASE}express-mongoose-recipes-dev`
-
-const MONGODB_URI = "mongodb://127.0.0.1:27017/express-mongoose-recipes-dev";
+const MONGODB_URI_BASE = "mongodb://127.0.0.1:27017/"
+const MONGODB_URI = `${MONGODB_URI_BASE}express-mongoose-recipes-dev`
 
 mongoose
     .connect(MONGODB_URI)
