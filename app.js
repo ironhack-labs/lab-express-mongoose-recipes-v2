@@ -69,6 +69,9 @@ app.get('/recipes',(req,res)=>{
 app.get('/recipes/:id', (req,res)=>{
     Recipe.findById(req.params.id)
     .then((recipe)=>{
+        if (!recipe) {
+            return res.status(404).json({ message: "Recipe not found" });
+        }
         res.status(200).json(recipe);
     })
     .catch((e)=>{
