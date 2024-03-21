@@ -12,6 +12,7 @@ app.use(express.json());
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
 const mongoose = require("mongoose");
+const Recipe = require("./models/Recipe.model");
 const MONGODB_URI = "mongodb://127.0.0.1:27017/express-mongoose-recipes-dev";
 
 mongoose
@@ -20,17 +21,35 @@ mongoose
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   )
   .catch((err) => console.error("Error connecting to mongo", err));
-  
 
 // ROUTES
 //  GET  / route - This is just an example route
-app.get('/', (req, res) => {
-    res.send("<h1>LAB | Express Mongoose Recipes</h1>");
+app.get("/", (req, res) => {
+  res.send("<h1>LAB | Express Mongoose Recipes</h1>");
 });
-
 
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
+app.post("/recipes", (req, res) => {
+  const newRecipe = ({
+    title,
+    instructions,
+    level,
+    ingredients,
+    image,
+    duration,
+    isArchived,
+    created,
+  } = req.body);
+
+  Recipe.create(newRecipe)
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
 
 
 //  Iteration 4 - Get All Recipes

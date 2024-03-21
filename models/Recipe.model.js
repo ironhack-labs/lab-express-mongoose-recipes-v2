@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema, Model } = mongoose;
+const { Schema } = mongoose;
 
 // Your code here ...
 const recipeSchema = new Schema({
@@ -26,10 +26,10 @@ const recipeSchema = new Schema({
   },
   created: {
     type: Date,
-    default: () => Date.now(),
+    default: Date.now,
   },
 });
 
-const Recipe = new Model("recipe", recipeSchema);
+const Recipe = mongoose.model("recipe", recipeSchema);
 
 module.exports = Recipe;
