@@ -54,10 +54,21 @@ app.post("/recipes", (req, res) => {
 
 //  Iteration 4 - Get All Recipes
 //  GET  /recipes route
-
+app.get("/recipes", (req, res) => {
+  Recipe.find({})
+    .then((result) => res.status(200).json(result))
+    .catch((err) => res.status(500).json(err));
+});
 
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
+app.get("/recipes/:id", (req, res) => {
+  const { id } = req.params;
+
+  Recipe.find({ _id: id })
+    .then((result) => res.status(200).json(result))
+    .catch((err) => res.status(500).json(err));
+});
 
 
 //  Iteration 6 - Update a Single Recipe
