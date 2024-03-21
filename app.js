@@ -94,6 +94,13 @@ app.put("/recipes/:id", (req, res) => {
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
+app.delete("/recipes/:id", (req, res) => {
+  const { id } = req.params;
+
+  Recipe.deleteOne({ _id: id })
+    .then((result) => res.status(204).send())
+    .catch((err) => res.status(500).json(err));
+});
 
 
 
