@@ -73,6 +73,23 @@ app.get("/recipes/:id", (req, res) => {
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
+app.put("/recipes/:id", (req, res) => {
+  const { id } = req.params;
+
+  const newRecipeData = ({
+    title,
+    instructions,
+    level,
+    ingredients,
+    image,
+    duration,
+    isArchived,
+  } = req.body);
+
+  Recipe.updateOne({ _id: id }, newRecipeData, { new: true })
+    .then((result) => res.status(200).json(result))
+    .catch((err) => res.status(500).json(err));
+});
 
 
 //  Iteration 7 - Delete a Single Recipe
