@@ -65,7 +65,7 @@ app.get("/recipes", (req, res) => {
 app.get("/recipes/:id", (req, res) => {
   const { id } = req.params;
 
-  Recipe.find({ _id: id })
+  Recipe.findById(id)
     .then((result) => res.status(200).json(result))
     .catch((err) => res.status(500).json(err));
 });
