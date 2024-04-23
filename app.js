@@ -72,6 +72,15 @@ app.get("/recipes/:id", async (req, res) => {
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
+app.put("/recipes/:id", async (req, res) => {
+  Recipe.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((updatedRecipe) => {
+      res.status(200).json(updatedRecipe);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Error while updating a single recipe" });
+    });
+});
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
