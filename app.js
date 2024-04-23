@@ -60,6 +60,15 @@ app.get("/recipes", async (req, res) => {
 
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
+app.get("/recipes/:id", async (req, res) => {
+  Recipe.findById(req.params.id)
+    .then((recipe) => {
+      res.status(200).json(recipe);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Error while getting a single recipe" });
+    });
+});
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
