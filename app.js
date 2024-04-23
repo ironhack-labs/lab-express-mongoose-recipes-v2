@@ -84,6 +84,15 @@ app.put("/recipes/:id", async (req, res) => {
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
+app.delete("/recipes/:id", async (req, res) => {
+  Recipe.findByIdAndDelete(req.params.id)
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Error while deleting a single recipe" });
+    });
+});
 
 // Start the server
 
