@@ -15,6 +15,7 @@ const recipeSchema = new Schema({
   duration: { type: Number, min: 0 },
   isArchived: { type: Boolean, default: false },
   created: { type: Date, default: Date.now },
+  timestamps: true,
 });
 
 const Recipe = model("Recipe", recipeSchema);
