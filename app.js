@@ -36,17 +36,10 @@ app.get("/", (req, res) => {
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
 app.post("/recipes", async (req, res) => {
-  const recipe = {
-    title: "Recipe 1",
-    instructions: "Step 1, Step 2, Step 3",
-    ingredients: "Ingredient 1",
-    description: "Description 1",
-    category: "Category 1",
-  };
+  const recipe = req.body;
   try {
     // Create a new recipe with the request body data
     const newRecipe = await Recipe.create(recipe);
-
     // Respond with success status code and the newly created recipe
     res.status(201).json(newRecipe);
   } catch (error) {
