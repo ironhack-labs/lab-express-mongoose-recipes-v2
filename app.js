@@ -95,15 +95,15 @@ app.get("/recipes/:id", async (req, res) => {
 //  PUT  /recipes/:id route
 app.put("/recipes/:id", async (req, res) => {
   try {
-    const specifiedRecipe = await Recipe.findByIdAndUpdate(
+    const updatedRecipe = await Recipe.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    if (!specifiedRecipe) {
+    if (!updatedRecipe) {
       return res.status(404).json({ message: "Recipe not updated" });
     }
-    res.status(200).json(specifiedRecipe);
+    res.status(200).json(updatedRecipe);
   } catch (err) {
     res.status(500).json({ message: "Error fetching recipe" });
   }
@@ -111,6 +111,17 @@ app.put("/recipes/:id", async (req, res) => {
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
+app.delete("/recipes/:id", async (req, res) => {
+  try {
+    const deleteRecipe = await Recipe.findByIdAndDelete(req.params.id);
+    if (!deleteRecipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ message: "error when deleting recipe" });
+  }
+});
 
 // Start the server
 app.listen(3000, () => console.log("My first app listening on port 3000!"));
