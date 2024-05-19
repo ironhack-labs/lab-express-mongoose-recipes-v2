@@ -29,6 +29,25 @@ app.get("/", (req, res) => {
 
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
+// app.post("/recipes", (req, res) => {
+//   Recipe.create({
+//     title: req.body.title,
+//     instructions: req.body.title,
+//     level: req.body.level,
+//     ingredients: req.body.ingredients,
+//     image: req.body.image,
+//     duration: req.body.duration,
+//     isArchived: req.body.isArchived,
+//     created: req.body.created,
+//   })
+//     .then((createdRecipe) => {
+//       res.status(201).json(createdRecipe);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ message: "Error when creting a new recipe" });
+//     });
+// });
+
 app.post("/recipes", async (req, res) => {
   try {
     const createdRecipe = await Recipe.create({
@@ -49,6 +68,14 @@ app.post("/recipes", async (req, res) => {
 
 //  Iteration 4 - Get All Recipes
 //  GET  /recipes route
+app.get("/recipes", async (req, res) => {
+  try {
+    const allRecipes = await Recipe.find({});
+    res.status(200).json(allRecipes);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching recipes" });
+  }
+});
 
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
