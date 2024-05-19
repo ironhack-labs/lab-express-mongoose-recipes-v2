@@ -11,6 +11,7 @@ app.use(express.json());
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
 const mongoose = require("mongoose");
+const Recipe = require("./models/Recipe.model");
 const MONGODB_URI = "mongodb://127.0.0.1:27017/express-mongoose-recipes-dev";
 
 mongoose
@@ -28,6 +29,23 @@ app.get("/", (req, res) => {
 
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
+app.post("/recipes", async (req, res) => {
+  try {
+    const createdRecipe = await Recipe.create({
+      title: req.body.title,
+      instructions: req.body.instructions,
+      level: req.body.level,
+      ingredients: req.body.ingredients,
+      image: req.body.image,
+      duration: req.body.duration,
+      isArchived: req.body.isArchived,
+      created: req.body.created,
+    });
+    res.status(201).json(createdRecipe);
+  } catch (err) {
+    res.status(500).json({ message: "Error when creting a new recipe" });
+  }
+});
 
 //  Iteration 4 - Get All Recipes
 //  GET  /recipes route
