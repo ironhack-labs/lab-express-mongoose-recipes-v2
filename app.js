@@ -11,8 +11,10 @@ app.use(express.json());
 
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
+require('./db/database-connection')
 
-
+// Models
+const Recipe = require('./models/Recipe.model')
 
 // ROUTES
 //  GET  / route - This is just an example route
@@ -23,6 +25,14 @@ app.get('/', (req, res) => {
 
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
+app.post('/recipes', (req, res) => {
+    const { title, instructions, level, ingredients, image, duration, isArchived } = req.body
+
+    Recipe
+        .create({ title, instructions, level, ingredients, image, duration, isArchived })
+        .then(newRecipe => res.sendStatus(201))
+        .catch(err => res.json({ code: 500, errorDetails: err }))
+})
 
 
 //  Iteration 4 - Get All Recipes
