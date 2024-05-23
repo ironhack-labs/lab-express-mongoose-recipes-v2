@@ -25,9 +25,29 @@ mongoose
 
 // ROUTES
 //  GET  / route - This is just an example route
+
+//  Iteration 3 - Create a Recipe route
+//  POST  /recipes route
+
+app.post("recipes", (req, res) => {
+    const recipeDetails = req.body
+    Recipe.create(recipeDetails)
+        .then(recipeFromDB => {
+            res.status(201).json(recipeFromDB)
+        })
+        .catch(error => {
+            res.status(500).json({message: "Error creating recipe"})
+        })
+})
+
+
+
+//  Iteration 4 - Get All Recipes
+//  GET  /recipes route
+
 app.get('/recipes', (req, res) => {
     Recipe.find({})
-        .then(recipesfromDB) => {
+        .then(recipesfromDB => {
             res.json(recipesfromDB)
         })
         .catch(error => {
@@ -37,24 +57,48 @@ app.get('/recipes', (req, res) => {
 });
 
 
-//  Iteration 3 - Create a Recipe route
-//  POST  /recipes route
-
-
-//  Iteration 4 - Get All Recipes
-//  GET  /recipes route
-
 
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
+
+app.get('/recipes/:id', (req, res) => {
+    Recipe.findById(req.params.id)
+        .then(recipefromDB => {
+            res.json(recipefromDB)
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(500).json({ error: "Failed to retrieve recipe" });
+        })
+});
+
 
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
 
+app.put('/recipes/:id', (req, res) => {
+    Recipe.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        .then(updatedRecipeFromDB => {
+            res.json(updatedRecipeFromDB)
+        })
+        .catch(error => {
+            res.status(500).json({error: "failed to update recipe"})
+        })
+})
+
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
+app.delete('/recipes/:id', (req, res) => {
+    Recipe.findByIdAndDelete(req.params.id)
+        .then(() => {
+            res.status(204).json(deletedRecipe)
+        })
+        .catch(error => {
+            res.status(500).json({error: "failed to delete recipe"})
+        })
+})
 
 
 
