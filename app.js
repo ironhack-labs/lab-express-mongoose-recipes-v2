@@ -1,6 +1,8 @@
 const express = require("express");
 const logger = require("morgan");
 
+require("./db");
+
 const app = express();
 
 // MIDDLEWARE
