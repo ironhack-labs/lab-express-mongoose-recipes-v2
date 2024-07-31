@@ -1,15 +1,15 @@
 const express = require("express");
-const logger = require("morgan");
 const mongoose = require("mongoose");
-const nodemon = require("nodemon");
+const logger = require("morgan");
 
+const Recipe = require("./models/Recipe.model");
 const app = express();
 
 // MIDDLEWARE
 app.use(logger("dev"));
 app.use(express.static("public"));
 app.use(express.json());
-app.use(nodemon);
+
 
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
@@ -21,8 +21,6 @@ mongoose
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   )
   .catch((err) => console.error("Error connecting to mongo", err));
-
-const Recipe = require("./models/Recipe.model");
 
 // ROUTES
 //  GET  / route - This is just an example route
