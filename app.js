@@ -1,7 +1,12 @@
 const express = require("express");
 const logger = require("morgan");
 
-const app = express();
+const PORT = 5005
+
+const app = express()
+
+require('./db/index')
+
 
 // MIDDLEWARE
 app.use(logger("dev"));
@@ -9,41 +14,60 @@ app.use(express.static("public"));
 app.use(express.json());
 
 
-// Iteration 1 - Connect to MongoDB
-// DATABASE CONNECTION
+const Recipe = require('./models/Recipe.model')
 
 
+app.get('/api/recipes', (req, res) => {
 
-// ROUTES
-//  GET  / route - This is just an example route
-app.get('/', (req, res) => {
-    res.send("<h1>LAB | Express Mongoose Recipes</h1>");
+    Recipe
+        .find()
+        .then(allRecipes => res.status(200).json(allRecipes))
+        .catch(err => res.status(500).json({ code: 500, message: 'Server error', details: err }))
 });
 
+app.get('/api/recipes/:id', (req, res) => {
 
-//  Iteration 3 - Create a Recipe route
-//  POST  /recipes route
+    const { id } = req.params
 
+    Recipe
+        .findById(id)
+        .then(recipe => res.status(200).json(recipe))
+        .catch(err => res.status(500).json({ code: 500, message: 'Internal Server Error', details: err }))
+})
 
-//  Iteration 4 - Get All Recipes
-//  GET  /recipes route
+app.post('/api/recipes', (req, res) => {
 
+    const { title, instructions, level, ingredients, image, duration, isArchived, created } = req.body
+    Recipe
+        .create({ title, instructions, level, ingredients, image, duration, isArchived, created })
+        .then(recipe => res.sendStatus(201))
+        .catch(err => res.status(500).json({ code: 500, message: 'Server error', details: err }))
+})
 
-//  Iteration 5 - Get a Single Recipe
-//  GET  /recipes/:id route
+app.put('/api/recipes/:id', (req, res) => {
 
+    const { id } = req.params
+    const { title, instructions, level, ingredients, image, duration, isArchived, created } = req.body
 
-//  Iteration 6 - Update a Single Recipe
-//  PUT  /recipes/:id route
+    Recipe
+        //verify res.send(id)
+        .findByIdAndUpdate(id, { title, instructions, level, ingredients, image, duration, isArchived, created })
+        .then(recipe => res.sendStatus(200).json(updatedRecipe))
+        .catch(err => res.status(500).json({ code: 500, message: 'Server error', details: err }))
+})
 
+app.delete('/api/recipes/:id', (req, res) => {
+    const { id } = req.params
 
-//  Iteration 7 - Delete a Single Recipe
-//  DELETE  /recipes/:id route
-
+    Recipe
+        .findByIdAndDelete(id)
+        .then(recipe => res.status(204).send())
+        .catch(err => res.status(500).json({ code: 500, message: 'Server error', details: err }))
+})
 
 
 // Start the server
-app.listen(3000, () => console.log('My first app listening on port 3000!'));
+app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
 
 
 
