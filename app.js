@@ -66,7 +66,17 @@ app.get('/recipes/:recipeId',(req,res,next)=>{
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
+app.patch("/recipes/:recipeId", (req,res)=>{
+    const {recipeId} = req.params;
+    const updatedRecipe = req.body;
 
+    Recipe.findByIdAndUpdate(recipeId,updatedRecipe,{new:true})
+    .then((response)=> res.json(response))
+    .catch((error)=>{
+        console.log("error patching the recipe...",e)
+        res.status(500).json({error: "Failed to update recipe"})
+    })
+})
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
