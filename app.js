@@ -1,4 +1,5 @@
 const express = require("express");
+const { Schema, Mongoose } = require("mongoose");
 const logger = require("morgan");
 
 const app = express();
@@ -11,7 +12,11 @@ app.use(express.json());
 
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
-
+const MONGODB_URL = "mongodb://127.0.0.1:27017/express-mongoose-recipes-dev";
+const mongoose = require("mongoose");
+mongoose.connect(MONGODB_URL)
+.then((x)=> console.log(`Connected to Mongo with DB name: "${x.connections[0].name}"`))
+.catch((e)=>console.log("Error", e));
 
 
 // ROUTES
