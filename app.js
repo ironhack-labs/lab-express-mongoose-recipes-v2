@@ -63,7 +63,16 @@ app.get('/recipes/:recipeId',(req,res,next)=>{
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
+app.delete("/recipes/:recipeId",(req,res,next)=>{
+    const {recipeId}= req.params;
 
+    Recipe.findByIdAndDelete(recipeId).then((deletedRecipe)=>{
+        res.status(200).json(deletedRecipe)
+    }).catch((e)=>{
+        console.log("Error deleting recipe",e)
+        res.status(500).json({error: "Failed to Delete a Recipe"})
+    })
+})
 
 
 // Start the server
