@@ -73,7 +73,7 @@ app.patch("/recipes/:recipeId", (req,res)=>{
     Recipe.findByIdAndUpdate(recipeId,updatedRecipe,{new:true})
     .then((response)=> res.json(response))
     .catch((error)=>{
-        console.log("error patching the recipe...",e)
+        console.log("error patching the recipe...",error)
         res.status(500).json({error: "Failed to update recipe"})
     })
 })
