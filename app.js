@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
-
+const mongoose = require("mongoose");
+const Recipe = require('./models/Recipe.model')
 const app = express();
 
 // MIDDLEWARE
@@ -12,7 +13,17 @@ app.use(express.json());
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
 
+// app.js
+//...
 
+const MONGODB_URI = "mongodb://localhost/express-mongoose-recipes-dev";
+
+mongoose
+    .connect(MONGODB_URI)
+    .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
+    .catch((err) => console.error("Error connecting to mongo", err));
+
+// ...
 
 // ROUTES
 //  GET  / route - This is just an example route
@@ -23,12 +34,78 @@ app.get('/', (req, res) => {
 
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
+app.post('/recipes', (req, res) => {
+
+    const {
+        title,
+        instructions,
+        level,
+        ingredients,
+        image,
+        duration,
+        isArchived,
+        created
+    } = req.body
+
+    Recipe
+        .create({
+            title,
+            instructions,
+            level,
+            ingredients,
+            image,
+            duration,
+            isArchived,
+            created
+        })
+        .then(recipe => res.json(recipe))
+        .catch(err => console.log('esto es un  error', err))
+});
 
 
 //  Iteration 4 - Get All Recipes
 //  GET  /recipes route
+app.get('/recipes', (req, res) => {
+    Recipe
+        .find()
+        .then(recipe => res.json(recipe))
+        .catch(err => console.log('esto es un  error', err))
+})
 
+app.get('/recipes/:id', (req, res) => {
+    const { recipeId } = req.params
+    Recipe
+        .findById(recipeId)
+        .then((recipe) => { res.status(200).json(recipe) })
+        .catch(err => console.log('esto es un  error', err))
+})
 
+app.put('/recipes/:id', (req, res) => {
+    const { recipeId } = req.params
+    const {
+        title,
+        instructions,
+        level,
+        ingredients,
+        image,
+        duration,
+        isArchived,
+        created
+    } = req.body
+    Recipe
+        .findByIdAndUpdate(recipeId, {
+            title,
+            instructions,
+            level,
+            ingredients,
+            image,
+            duration,
+            isArchived,
+            created
+        }, { new: true })
+        .then((recipe) => { res.status(200).json(recipe) })
+        .catch(err => console.log('esto es un  error', err))
+})
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
 
