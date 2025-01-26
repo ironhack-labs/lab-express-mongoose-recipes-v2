@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require("express");
 const logger = require("morgan");
+const routes = require('./config/routes.config');
 
 const app = express();
 
@@ -12,13 +14,13 @@ app.use(express.json());
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
 
+require('./config/db.config');
+
 
 
 // ROUTES
 //  GET  / route - This is just an example route
-app.get('/', (req, res) => {
-    res.send("<h1>LAB | Express Mongoose Recipes</h1>");
-});
+app.use('/api/v1', routes);
 
 
 //  Iteration 3 - Create a Recipe route
@@ -43,7 +45,8 @@ app.get('/', (req, res) => {
 
 
 // Start the server
-app.listen(3000, () => console.log('My first app listening on port 3000!'));
+const port = Number (process.env.PORT || 3000);
+app.listen(port, () => console.log('My first app listening on port 3000!'));
 
 
 
