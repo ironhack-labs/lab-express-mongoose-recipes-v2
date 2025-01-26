@@ -43,3 +43,13 @@ module.exports.update = (req, res, next) => {
         })
         .catch(error => next(error));
 } 
+
+module.exports.delete = (req, res, next) => {
+    const { id } = req.params;
+    Recipe.findByIdAndDelete(id)
+        .then((recipe) => {
+            if (!recipe) next(createError(404, 'Not Found'));
+            else res.status(204).send();
+        })
+        .catch(error => next(error));
+} 

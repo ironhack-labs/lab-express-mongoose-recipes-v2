@@ -8,6 +8,7 @@ router.post('/recipes', recipes.create);
 router.get('/recipes', recipes.list);
 router.get('/recipes/:id', recipes.detail);
 router.put('/recipes/:id', recipes.update);
+router.delete('/recipes/:id', recipes.delete);
 
 router.use('/', (req, res, next) => {
     next(createError(404, 'Route not found'))
