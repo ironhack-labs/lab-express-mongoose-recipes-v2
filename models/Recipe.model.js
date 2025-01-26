@@ -41,8 +41,19 @@ const eventSchema = new mongoose.Schema(
             // default : Date.now(), --> Another aproach
             default : () => dayjs().toDate(),
         }
+    },
+    {
+        timestamps : true,
+        toJSON : {
+            transform : function (doc, ret) {
+                delete ret.__v;
+                delete ret._id;
+                ret.id= doc._id
+                return ret;
+            }
+        }
     }
-)
+);
 
-const Recipe = mongoose.model('Recipe', eventSchema)
+const Recipe = mongoose.model('Recipe', eventSchema);
 module.exports = Recipe;

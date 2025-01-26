@@ -20,5 +20,15 @@ module.exports.create = (req, res, next) => {
 module.exports.list = (req, res, next) => {
     Recipe.find()
         .then(recipes => res.json(recipes))
-        .catch(error =>  next(error));
+        .catch(error => next(error));
 };
+
+module.exports.detail = (req, res, next) => {
+    const { id } = req.params;
+    Recipe.findById(id)
+        .then((recipe) => {
+            if (!recipe) next(createError(404, 'Not Found'));
+            else res.json(recipe);
+        })
+        .catch(error => next(error));
+} 
