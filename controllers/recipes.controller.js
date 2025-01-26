@@ -32,3 +32,14 @@ module.exports.detail = (req, res, next) => {
         })
         .catch(error => next(error));
 } 
+
+module.exports.update = (req, res, next) => {
+    const { id } = req.params;
+    const { body } = req;
+    Recipe.findByIdAndUpdate(id, {body}, {runValidators : true, new : true})
+        .then((recipe) => {
+            if (!recipe) next(createError(404, 'Not Found'));
+            else res.json(recipe);
+        })
+        .catch(error => next(error));
+} 

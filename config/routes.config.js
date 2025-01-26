@@ -7,6 +7,7 @@ const recipes = require('../controllers/recipes.controller')
 router.post('/recipes', recipes.create);
 router.get('/recipes', recipes.list);
 router.get('/recipes/:id', recipes.detail);
+router.put('/recipes/:id', recipes.update);
 
 router.use('/', (req, res, next) => {
     next(createError(404, 'Route not found'))
