@@ -1,18 +1,18 @@
 // Your code here ...
 const mongoose = require('mongoose');
 
-const days = require('dayjs');
+const dayjs = require('dayjs');
 
 const eventSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            require: true,
+            required: true,
             unique: true
         },
         instructions: {
             type: String,
-            require: true
+            required: true
         },
         level: {
             type: String,
@@ -38,11 +38,11 @@ const eventSchema = new mongoose.Schema(
             // Execute the function for each new Schema instance 
             // to get the current date.
             //      OR
-            //default : Date.now(), --> Another aproach
+            // default : Date.now(), --> Another aproach
             default : () => dayjs().toDate(),
         }
     }
 )
 
-const Recipes = mongoose.Schema('Recipes', eventSchema)
-module.exports = Recipes;
+const Recipe = mongoose.model('Recipe', eventSchema)
+module.exports = Recipe;
