@@ -1,5 +1,9 @@
+require('dotenv').config();
+
 const express = require("express");
 const logger = require("morgan");
+const mongoose = require("./config/db.config"); // Importar configuración de la base de datos
+const routes = require("./config/routes.config"); // Importar configuración de las rutas
 
 const app = express();
 
@@ -8,44 +12,12 @@ app.use(logger("dev"));
 app.use(express.static("public"));
 app.use(express.json());
 
-
-// Iteration 1 - Connect to MongoDB
-// DATABASE CONNECTION
-
-
-
-// ROUTES
-//  GET  / route - This is just an example route
-app.get('/', (req, res) => {
-    res.send("<h1>LAB | Express Mongoose Recipes</h1>");
-});
-
-
-//  Iteration 3 - Create a Recipe route
-//  POST  /recipes route
-
-
-//  Iteration 4 - Get All Recipes
-//  GET  /recipes route
-
-
-//  Iteration 5 - Get a Single Recipe
-//  GET  /recipes/:id route
-
-
-//  Iteration 6 - Update a Single Recipe
-//  PUT  /recipes/:id route
-
-
-//  Iteration 7 - Delete a Single Recipe
-//  DELETE  /recipes/:id route
-
-
+// Use routes from routes.config.js
+app.use('/', routes);
 
 // Start the server
-app.listen(3000, () => console.log('My first app listening on port 3000!'));
-
-
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`My first app listening on port ${PORT}!`));
 
 //❗️DO NOT REMOVE THE BELOW CODE
 module.exports = app;
