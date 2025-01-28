@@ -5,7 +5,7 @@ const {
     getSingleRecipe,
     updateRecipe,
     deleteRecipe
-} = require("../controllers/recipeController");
+} = require("../controllers/recipes.controllers");
 
 const router = express.Router();
 

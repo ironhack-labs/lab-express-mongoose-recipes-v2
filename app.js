@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require("express");
 const logger = require("morgan");
-const mongoose = require("./config/.db.config"); // Importar configuración de la base de datos
+const mongoose = require("./config/db.config"); // Importar configuración de la base de datos
 const routes = require("./config/routes.config"); // Importar configuración de las rutas
 
 const app = express();
