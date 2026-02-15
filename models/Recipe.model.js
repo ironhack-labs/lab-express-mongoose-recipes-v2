@@ -16,7 +16,7 @@ const recipeSchema = mongoose.Schema({
     required: [true, "This field is required"],
     enum: ["Easy Peasy", "Amateur Chef", "UltraPro Chef"]
   },
-  ingredientes: {
+  ingredients: {
     type: [String],
   },
   image: {
