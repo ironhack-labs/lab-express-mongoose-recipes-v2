@@ -1,5 +1,9 @@
 const express = require("express");
 const logger = require("morgan");
+const mongoose = require("mongoose");
+
+// Import models
+const Recipe = require("./models/Recipe.model");
 
 const app = express();
 
@@ -11,7 +15,17 @@ app.use(express.json());
 
 // Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
+// app.js
+//...
 
+const MONGODB_URI = "mongodb://127.0.0.1:27017/express-mongoose-recipes-dev";
+
+mongoose
+  .connect(MONGODB_URI)
+  .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
+  .catch((err) => console.error("Error connecting to mongo", err));
+
+// ...
 
 
 // ROUTES
@@ -23,23 +37,85 @@ app.get('/', (req, res) => {
 
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
+app.post("/recipes", (req, res) => {
+    const newRecipe = req.body;
 
+    Recipe.create(newRecipe)
+        .then((recipeFromDb) => {
+            console.log("Created recipe ->", newRecipe);
+            res.status(201).json(recipeFromDb);
+        })
+        .catch((error) => {
+            console.error("Error while creating recipe...", error);
+            res.status(500).json({error: "Failed to create Recipe"});
+        })
+})
 
 //  Iteration 4 - Get All Recipes
 //  GET  /recipes route
+app.get("/recipes", (req, res) => {
+    Recipe.find({})
+        .then((recipes) => {
+            console.log("Retrieved recipes ->", recipes);
+            res.json(recipes);
+        })
+        .catch((error) => {
+            console.error("Error while retrieving recipes...", error);
+            res.status(500).json({error: "Failed to retrieve recipes"});
+        })
+})
 
 
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
+app.get("/recipes/:id", (req, res) => {
+    const { id } = req.params;
+    
+    Recipe.findById(id)
+        .then((recipe) => {
+            console.log("Retrieved recipe ->", recipe);
+            res.json(recipe);
+        })
+        .catch((error) => {
+            console.error("Error while retriving recipe with id -> " + id, error);
+            res.status(500).json({error: "Failed to retrieve recipe"});
+        })
+})
 
 
 //  Iteration 6 - Update a Single Recipe
 //  PUT  /recipes/:id route
+app.put("/recipes/:id", (req, res) => {
+    const { id } = req.params;
+    const newDetails = req.body;
+
+    Recipe.findByIdAndUpdate(id, newDetails, {returnDocument: 'after'})
+        .then((recipe) => {
+            console.log("Updated recipe ->", recipe);
+            res.json(recipe);
+        })
+        .catch((error) => {
+            console.error("Error while updating recipe...", error);
+            res.status(500).json({error: "Failed to update recipe"});
+        })
+})
 
 
 //  Iteration 7 - Delete a Single Recipe
 //  DELETE  /recipes/:id route
+app.delete("/recipes/:id", (req, res) => {
+    const { id } = req.params;
 
+    Recipe.findByIdAndDelete(id)
+        .then((response) => {
+            console.log("Deleted recipe", response);
+            res.status(204).send();
+        })
+        .catch((error) => {
+            console.error("Error while deleting recipe...", error);
+            res.status(500).json({error: "Failed to delete recipe"})
+        })
+})
 
 
 // Start the server
