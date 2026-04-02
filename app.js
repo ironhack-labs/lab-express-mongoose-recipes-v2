@@ -47,7 +47,7 @@ app.post("/recipes", (req, res) => {
         })
         .catch((error) => {
             console.error("Error while creating recipe...", error);
-            req.status(500).json({error: "Failed to create Recipe"});
+            res.status(500).json({error: "Failed to create Recipe"});
         })
 })
 
@@ -61,7 +61,7 @@ app.get("/recipes", (req, res) => {
         })
         .catch((error) => {
             console.error("Error while retrieving recipes...", error);
-            req.status(500).json({error: "Failed to retrieve recipes"});
+            res.status(500).json({error: "Failed to retrieve recipes"});
         })
 })
 
@@ -78,7 +78,7 @@ app.get("/recipes/:id", (req, res) => {
         })
         .catch((error) => {
             console.error("Error while retriving recipe with id -> " + id, error);
-            req.status(500).json({error: "Failed to retrieve recipe"});
+            res.status(500).json({error: "Failed to retrieve recipe"});
         })
 })
 
@@ -109,7 +109,7 @@ app.delete("/recipes/:id", (req, res) => {
     Recipe.findByIdAndDelete(id)
         .then((response) => {
             console.log("Deleted recipe", response);
-            res.json(response);
+            res.status(204).send();
         })
         .catch((error) => {
             console.error("Error while deleting recipe...", error);
