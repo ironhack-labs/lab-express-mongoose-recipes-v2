@@ -32,6 +32,25 @@ app.get('/', (req, res) => {
 
 //  Iteration 3 - Create a Recipe route
 //  POST  /recipes route
+app.post('/recipes', (req, res) => {
+  Recipe.create({
+    title: req.body.title,
+    instructions: req.body.instructions,
+    level: req.body.level,
+    ingredients: req.body.ingredients,
+    image: req.body.image,
+    duration: req.body.duration,
+    isArchived: req.body.isArchived,
+    created: req.body.created
+  })
+    .then((newRecipe) => {
+      res.status(201).json(newRecipe);
+    })
+    .catch((error) => {
+      console.error("Error creating a new recipe", error);
+      res.status(500).json({ error: "Failed to create a new recipe" });
+    });
+});
 
 
 //  Iteration 4 - Get All Recipes
