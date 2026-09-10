@@ -69,6 +69,16 @@ app.get('/recipes', (req, res) => {
 
 //  Iteration 5 - Get a Single Recipe
 //  GET  /recipes/:id route
+app.get('/recipes/:id', (req, res) => {
+  Recipe.findById(req.params.id)
+    .then((recipe) => {
+      res.status(200).json(recipe);
+    })
+    .catch((error) => {
+      console.error("Error retrieving a single recipe", error);
+      res.status(500).json({ error: "Failed to retrieve the recipe" });
+    });
+});
 
 
 //  Iteration 6 - Update a Single Recipe
