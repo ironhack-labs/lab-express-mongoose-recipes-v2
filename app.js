@@ -2,6 +2,8 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 
+const Recipe = require("./models/Recipe.model");
+
 const app = express();
 
 // MIDDLEWARE
